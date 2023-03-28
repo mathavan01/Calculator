@@ -19,11 +19,12 @@ public class Determinant{
         }
         int det = 0;
         if (d == 2){
-            det = (matrix[0][0] * matrix[1][1]) / (matrix[0][1] * matrix[1][0]);
+            det = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
         } else {
             int left_right = 0;
             int right_left = 0;
             int temp = 1;
+            int offset = 0;
             int[][] new_matrix = new int[d][2 * d - 1];
             for (int i = 0; i < d; i++){
                 for (int j = 0; j < 2 * d - 1; j++){
@@ -32,17 +33,21 @@ public class Determinant{
             }
             for (int i = 0; i < d; i++){
                 for (int j = 0; j < d; j++){
-                    temp *= new_matrix[j][i + j];
+                    temp *= new_matrix[j][i + offset];
+                    offset++;
                 }
                 left_right += temp;
                 temp = 1;
+                offset = 0;
             }
             for (int i = 2 * d - 2; i >= d - 1; i--){
                 for (int j = 0; j < d; j++){
-                    temp *= new_matrix[j][i - j];
+                    temp *= new_matrix[j][i - offset];
+                    offset++;
                 }
                 right_left += temp;
                 temp = 1;
+                offset = 0;
             }
             det = left_right - right_left;
         }
